@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 const cheerio = require ('cheerio');
 
-// models
-const db = require('./models');
+// // models
+const models = require('/models');
 
 // port
 const PORT = process.env.PORT || 3000;
@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // mongodb when deployed
-const db = process.env.MONGODB_URI || "mongod://localhost/mongoHeadlines";
+const db = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(db, function(error) {
     if (error) {
         console.log(error);
