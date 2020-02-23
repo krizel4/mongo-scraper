@@ -5,9 +5,6 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 const cheerio = require ('cheerio');
 
-// // models
-const models = require('/models');
-
 // port
 const PORT = process.env.PORT || 3000;
 
