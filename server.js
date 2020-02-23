@@ -21,13 +21,23 @@ const router = express.Router();
 app.use(express.static(__dirname + '/public'));
 
 // handlebars
-app.engine('handlebars', exphbs({ defaultLayout: 'main', }),
-);
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
 
 // router middleware
-app.use(router);
+// app.use(router);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// mongodb when deployed
+const db = process.env.MONGODB_URI || "mongod://localhost/mongoHeadlines";
+mongoose.connect(db, function(error) {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log("mongoose connection is successful");
+    }
+})
 
 // listen
 app.listen(PORT, function() {
