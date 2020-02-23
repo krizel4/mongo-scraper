@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 var app = express();
 
 // router
-const router = express.router();
+const router = express.Router();
 
 // static directory
 app.use(express.static(__dirname + "/public"));
