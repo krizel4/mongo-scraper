@@ -7,21 +7,22 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+// require all models
+const db = require('./models');
 
 // port
 const PORT = process.env.PORT || 3000;
 
-// express app
+// initialize express
 const app = express();
 
-// router
-const router = express.Router();
+// Configure middleware
+// parse request body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// routes
-require('./config/routes')(router);
-
-// static directory
-app.use(express.static(__dirname + '/public'));
+// make public a static folder
+app.use(express.static('public'));
 
 // handlebars
 app.engine('handlebars', exphbs({
@@ -29,22 +30,16 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 
-// router middleware
-app.use(router);
-app.use(express.urlencoded({
-    extended: true
-}));
-app.use(express.json());
-
-// // mongodb when deployed
-const db = process.env.MONGODB_URI || 'mongodb://localhost/mongoHeadlines';
-mongoose.connect(db, {
+// mongodb when deployed
+const mDB = process.env.MONGODB_URI || 'mongodb://localhost/mongoHeadlines';
+mongoose.connect(mDB, {
         useNewUrlParser: true
     })
-    .then(() => console.log(`Connected to ${db}`))
+    .then(() => console.log(`Connected to ${mDB}`))
     .catch((err) => console.error(err));
 
-// A GET route for scraping the echoJS website
+// Routes
+// A GET route for scraping the WSJ website
 app.get('/scrape', function(req, res, body) {
     // First, we grab the body of the html with axios
     axios.get('http://www.wsj.com/').then(function(response) {
