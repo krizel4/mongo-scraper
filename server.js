@@ -72,6 +72,7 @@ app.get('/scrape', (req, res) => {
       let result = {}
 
       // Add the text and href of every link, and save them as properties of the result object
+      // originally, i passed a class through the .find method to cull through and grab titles. but for whatever reason, this just wasn't working.
       result.title = $(this)
         .text();
       result.link = $(this).find('a')

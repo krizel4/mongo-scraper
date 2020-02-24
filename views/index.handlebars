@@ -8,6 +8,7 @@
                 <li><a class="btn scrape-new">Scrape New Articles</a></li>
             </ul>
         </div>
+        </div>
 </nav>
 
 <div class="jumbotron">
@@ -15,25 +16,18 @@
     <p>Wall Street Journal Edition</p>
 </div>
 
-<div class="container-fluid articles">
-</div>
-
-<footer class="footer">
-    <div class="container">
-        <p>WSJ Mongo Scraper</p>
+<div class="container-fluid">
+    <div class="container" id="div-container">
+        <p>WSJ Scraper</p>
         {{#each headlines}}
-        <div class="card" id="{{headlines.id}}">
+        <div id="{{this._id}}">
             <h2 class="card-header"><a href="{{this.link}}">{{this.title}}</a></h2>
-            {{!-- <div class="card-body">
-                <p class="card-text">{{this.summary}}</p> --}}
-                <a href="#" id="save" data-id="{{this._id}}" class="btn btn-primary float-right">Save</a>
-
-            </div>
+                <p class="card-text">{{this.summary}}</p>
+                <button id="{{this._id}}" type="button" class="btn">Save</a>
         </div>
         {{/each}}
 
     </div>
-</footer>
 </div> {{!-- this ends the container --}}
 
 {{!-- JAVASCRIPT --}}
