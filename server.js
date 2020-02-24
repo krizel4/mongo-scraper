@@ -42,7 +42,7 @@ mongoose.connect(mDB, {
 
 // landing page
 app.get("/", (req, res) => {
-    db.headline.find({ saved: false }).then(function (dbHeadlines) {
+    db.Headline.find({ saved: false }).then(function (dbHeadlines) {
       var hbsObject = {
         data: dbHeadlines
       };
@@ -50,8 +50,18 @@ app.get("/", (req, res) => {
     });
   });
 
+// route for saved headlines
+app.get("/saved", (req, res) => {
+    db.Headline.find({ saved: true }).lean().then(function (dbHeadlines) {
+      var hbsObject = {
+        data: dbHeadlines
+      };
+      res.render("saved", hbsObject);
+    });
+  });
+
 // A GET route for scraping the WSJ website
-app.get('/scrape', function(req, res, body) {
+app.get('/scrape', (req, res, body) => {
     // First, we grab the body of the html with axios
     axios.get('http://www.wsj.com/').then(function(response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -93,7 +103,7 @@ app.get('/scrape', function(req, res, body) {
   });
 
   // Route for getting all headlines from the db
-  app.get('/headlines', function(req, res) {
+  app.get('/headlines', (req, res) => {
     // Grab every document in the headlines collection
     db.Headline.find({})
       .then(function(dbHeadline) {
@@ -108,7 +118,7 @@ app.get('/scrape', function(req, res, body) {
   });
 
   // Route for grabbing a specific Headline by id, populate it with it's note
-  app.get('/headlines/:id', function(req, res) {
+  app.get('/headlines/:id', (req, res) => {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Headline.findOne({ _id: req.params.id })
       // ..and populate all of the notes associated with it
@@ -124,7 +134,7 @@ app.get('/scrape', function(req, res, body) {
   });
 
   // Route for saving/updating an Headline's associated Note
-  app.post('/headlines/:id', function(req, res) {
+  app.post('/headlines/:id', (req, res) => {
     // Create a new note and pass the req.body to the entry
     db.Note.create(req.body)
       .then(function(dbNote) {
@@ -144,6 +154,6 @@ app.get('/scrape', function(req, res, body) {
   });
 
 // listen
-app.listen(PORT, function () {
+app.listen(PORT, () => {
     console.log('Listening on http://localhost:' + PORT);
 });
