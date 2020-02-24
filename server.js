@@ -30,7 +30,7 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 // router middleware
-// app.use(router);
+app.use(router);
 app.use(express.urlencoded({
     extended: true
 }));
