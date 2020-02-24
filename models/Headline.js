@@ -6,10 +6,13 @@ const Schema = mongoose.Schema;
 
 const headlineSchema = new Schema({
     // unique headline
-    headline: {
+    title: {
         type: String,
         required: true,
-        unique: true
+     },
+    link: {
+        type: String,
+        required: true
     },
     summary: {
         type: String,
@@ -19,6 +22,10 @@ const headlineSchema = new Schema({
     saved: {
         type: Boolean,
         default: false
+    },
+    note: {
+        type: Schema.Types.ObjectId,
+        ref: 'Note'
     }
 });
 
