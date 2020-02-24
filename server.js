@@ -39,6 +39,17 @@ mongoose.connect(mDB, {
     .catch((err) => console.error(err));
 
 // Routes
+
+// landing page
+app.get("/", (req, res) => {
+    db.headline.find({ saved: false }).then(function (dbHeadlines) {
+      var hbsObject = {
+        data: dbHeadlines
+      };
+      res.render("index", hbsObject);
+    });
+  });
+
 // A GET route for scraping the WSJ website
 app.get('/scrape', function(req, res, body) {
     // First, we grab the body of the html with axios
@@ -47,7 +58,7 @@ app.get('/scrape', function(req, res, body) {
       var $ = cheerio.load(response.data);
 
       // Now, we grab every 3 within an Headline tag, and do the following:
-      $('article').each(function(i, element) {
+      $('headline').each(function(i, element) {
         // Save an empty result object
         var result = {};
 
@@ -55,7 +66,12 @@ app.get('/scrape', function(req, res, body) {
         result.title = $(element).find('.WSJTheme--headline--19_2KfxG')
           .children('a')
           .text();
-        result.link = $(element).find('.WSJTheme--summary--12br5Svc')
+        result.summary = $(element).find('.WSJTheme--summary--12br5Svc')
+          .children()
+          .remove()
+          .end()
+          .text();
+        result.link = $(element).find('a')
           .children('a')
           .attr('href');
 
