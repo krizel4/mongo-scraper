@@ -45,7 +45,6 @@ mongoose.connect(MONGODB_URI, {
   .catch((err) => console.error(err));
 
 // Routes
-
 // landing page
 app.get('/', (req, res) => {
   db.Headline.find({
@@ -73,22 +72,21 @@ app.get('/scrape', (req, res) => {
       let result = {}
 
       // Add the text and href of every link, and save them as properties of the result object
-      result.title = $(element).find('.WSJTheme--headline--19_2KfxG')
-        .children('a')
+      result.title = $(this)
         .text();
-      result.link = $(element).find('a')
-        .children('a')
+      result.link = $(this).find('a')
+        // .children('a')
         .attr('href');
-      result.summary = $(element).find('.WSJTheme--summary--12br5Svc')
+      result.summary = $(this).find('.WSJTheme--summary--12br5Svc')
         .children()
         .remove()
         .end()
         .text();
 
       // Create a new Headline using the `result` object built from scraping
-      if (result.title && result.link && result.summary) {
-        db.Headline.create(results)
-          .then(function (dbHeadline) {
+
+        db.Headline.create(result)
+          .then(function(dbHeadline) {
             // View the added result in the console
             console.log(dbHeadline);
           })
@@ -96,9 +94,8 @@ app.get('/scrape', (req, res) => {
             // If an error occurred, log it
             res.json(err)
           };
-      }
-    });
 
+    });
     // Send a message to the client
     res.send('Scrape Complete');
   });

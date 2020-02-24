@@ -21,18 +21,16 @@
 <footer class="footer">
     <div class="container">
         <p>WSJ Mongo Scraper</p>
-        {{#if data}}
-        {{#each data}}
-        <div class="card">
-            <h5 class="card-header"><a href="{{this.link}}">{{this.title}}</a></h5>
-            <div class="card-body">
-                <p class="card-text">{{this.summary}}</p>
+        {{#each headlines}}
+        <div class="card" id="{{headlines.id}}">
+            <h2 class="card-header"><a href="{{this.link}}">{{this.title}}</a></h2>
+            {{!-- <div class="card-body">
+                <p class="card-text">{{this.summary}}</p> --}}
                 <a href="#" id="save" data-id="{{this._id}}" class="btn btn-primary float-right">Save</a>
 
             </div>
         </div>
         {{/each}}
-        {{/if}}
 
     </div>
 </footer>
