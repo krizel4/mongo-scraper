@@ -37,7 +37,7 @@ app.use(express.urlencoded({
 app.use(express.json());
 
 // // mongodb when deployed
-const db = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+const db = process.env.MONGODB_URI || 'mongodb://localhost/mongoHeadlines';
 mongoose.connect(db, {
         useNewUrlParser: true
     })
@@ -45,24 +45,24 @@ mongoose.connect(db, {
     .catch((err) => console.error(err));
 
 // A GET route for scraping the echoJS website
-app.get("/scrape", function(req, res) {
+app.get('/scrape', function(req, res, body) {
     // First, we grab the body of the html with axios
-    axios.get("http://www.wsj.com/").then(function(response) {
+    axios.get('http://www.wsj.com/').then(function(response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
       var $ = cheerio.load(response.data);
 
-      // Now, we grab every h2 within an Headline tag, and do the following:
-      $("Headline h2").each(function(i, element) {
+      // Now, we grab every 3 within an Headline tag, and do the following:
+      $('article').each(function(i, element) {
         // Save an empty result object
         var result = {};
 
         // Add the text and href of every link, and save them as properties of the result object
-        result.title = $(this)
-          .children("a")
+        result.title = $(element).find('.WSJTheme--headline--19_2KfxG')
+          .children('a')
           .text();
-        result.link = $(this)
-          .children("a")
-          .attr("href");
+        result.link = $(element).find('.WSJTheme--summary--12br5Svc')
+          .children('a')
+          .attr('href');
 
         // Create a new Headline using the `result` object built from scraping
         db.Headline.create(result)
@@ -77,12 +77,12 @@ app.get("/scrape", function(req, res) {
       });
 
       // Send a message to the client
-      res.send("Scrape Complete");
+      res.send('Scrape Complete');
     });
   });
 
   // Route for getting all headlines from the db
-  app.get("/headlines", function(req, res) {
+  app.get('/headlines', function(req, res) {
     // Grab every document in the headlines collection
     db.Headline.find({})
       .then(function(dbHeadline) {
@@ -97,11 +97,11 @@ app.get("/scrape", function(req, res) {
   });
 
   // Route for grabbing a specific Headline by id, populate it with it's note
-  app.get("/headlines/:id", function(req, res) {
+  app.get('/headlines/:id', function(req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Headline.findOne({ _id: req.params.id })
       // ..and populate all of the notes associated with it
-      .populate("note")
+      .populate('note')
       .then(function(dbHeadline) {
         // If we were able to successfully find an Headline with the given id, send it back to the client
         res.json(dbHeadline);
@@ -113,7 +113,7 @@ app.get("/scrape", function(req, res) {
   });
 
   // Route for saving/updating an Headline's associated Note
-  app.post("/headlines/:id", function(req, res) {
+  app.post('/headlines/:id', function(req, res) {
     // Create a new note and pass the req.body to the entry
     db.Note.create(req.body)
       .then(function(dbNote) {
