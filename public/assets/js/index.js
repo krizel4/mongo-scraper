@@ -1,11 +1,13 @@
-// Grab articles as a json
-$.getJSON('/headlines', (data) => {
-    // for each one
-    for (let i = 0; i < data.length; i++) {
-        // display information on page
-        $('#article').append(`<p data-d='${data[i]._id}'> ${data[i].title}<br /> ${data[i].link} </p>`);
-    }
-});
+// // Grab articles as a json
+// $.getJSON('/headlines', (data) => {
+//     // for each one
+//     for (let i = 0; i < data.length; i++) {
+//         // display information on page
+//         $('#article').append(`<p data-d='${data[i]._id}'> ${data[i].title}<br /> ${data[i].link} </p>`);
+//     }
+// });
+
+// Pull articles
 
 // Notes
 $(document).on('click', 'p', () => {
@@ -15,7 +17,7 @@ $(document).on('click', 'p', () => {
 // AJAX call for the article
 $.ajax({
     method: 'GET',
-    url: '/articles/' + thisId
+    url: '/headlines/' + thisId
 }).then(function(data) {
     console.log(data);
     $('#notes').append(`<h2>${data.title}</h2>`);
