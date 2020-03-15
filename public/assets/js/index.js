@@ -4,11 +4,11 @@ const divContainer = $('.div-container');
 initializePage();
 
 function initializePage() {
-    divContainer.empty();
+    divContainer.empty()
     $.get('/headlines?saved=false')
     .then(function(data) {
         if (data && data.length) {
-            renderHeadlines(data);
+            initializePage(data);
         } else {
             renderEmpty();
         }
