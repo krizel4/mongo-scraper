@@ -1,11 +1,6 @@
 // dependencies
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:3000/scrape');
-mongoose.connection.on('error', () => {
-    console.error('MongoDB Connection Error. Make sure MongoDB is running.');
-});
-
 // schema
 const Schema = mongoose.Schema;
 
@@ -33,4 +28,6 @@ const headlineSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Headline', headlineSchema);
+const Headline = mongoose.model('Headline', headlineSchema);
+
+module.exports = Headline;
