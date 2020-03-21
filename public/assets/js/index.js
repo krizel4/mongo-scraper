@@ -1,11 +1,6 @@
 $(document).ready(function() {
 const headlines = $('.headlines');
 
-$(document).on('click', '.btn.delete', handleHeadlineDelete);
-$(document).on('click', '.btn.note', handleHeadlineNote);
-$(document).on('click', '.btn.save', handleNoteSave);
-$(document).on('click', '.btn.note-delete', handleNoteDelete);
-
 initPage();
 
 function initPage() {
@@ -17,12 +12,12 @@ function initPage() {
   })
 }
 
-function handleHeadlineDelete() {
-  const headlineDelete = $(this).parents.('.panel').data();
-  $.ajax({
-    method: DELETE
+// Button that saves articles
 
-  })
-}
+// Button that removes articles
+
+// Button that allows a comment to be added
+
+// Button that allows comment to be deleted
 
 });
