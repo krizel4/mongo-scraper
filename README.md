@@ -22,6 +22,8 @@ To run the app, you'll need to first run a scrape by navigating to the /scrape. 
 * jQuery
 
 ## Known Issues and Other Notes
+*Update March 2020*: Scrapes are finally appearing on the main page. Other functions are still in progress.
+
 After cloning this app onto your machine, you'll need to install the required dependencies. When you run `node server` to prompt open the page on a localhost, you'll be able to scrape the articles and view them under `http://localhost/headlines`. However, at this time, the articles are not generating on the main.handlebars page. Additionally, none of the buttons are yet functioning. This application is still in progress.
 
 This was made for the UCLA Coding Bootcamp 2020.
